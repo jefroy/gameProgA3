@@ -537,21 +537,25 @@ public class GameManager extends GameCore {
         from the map.
     */
     public void acquirePowerUp(PowerUp powerUp) {
-        // remove it from the map
-        map.removeSprite(powerUp);
 
         if (powerUp instanceof PowerUp.Heart) {
             // do something here, like give the player points
-            this.map.getPlayer().health += powerUp.worth;
-            soundManager.play(prizeSound);
+            if(map.getPlayer().health < map.getPlayer().maxHP){
+                map.removeSprite(powerUp);
+                this.map.getPlayer().health += powerUp.worth;
+                soundManager.play(prizeSound);
+            }
         }
         else if (powerUp instanceof PowerUp.Music) {
             // change the music
+            map.removeSprite(powerUp);
             soundManager.play(prizeSound);
             toggleDrumPlayback();
+
         }
         else if (powerUp instanceof PowerUp.Goal) {
             // advance to next map
+            map.removeSprite(powerUp);
             soundManager.play(prizeSound,
                 new EchoFilter(2000, .7f), false);
             map = resourceManager.loadNextMap();

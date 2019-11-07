@@ -24,7 +24,7 @@ public class Player extends Creature {
     public int up2;
     public int up3;
     public boolean win;
-    public int maxHP;
+    public static int maxHP;
 
     public Player(
             Animation runLeft, Animation runRight,
@@ -59,6 +59,7 @@ public class Player extends Creature {
         up1 = 10;
         up2 = 20;
         up3 = 30;
+        System.out.println("created player");
     }
 
     @Override
