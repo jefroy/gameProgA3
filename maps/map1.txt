@@ -1,0 +1,21 @@
+# Map file for tile-based game
+# (Lines that start with '#' are comments)
+# The tiles are:
+#   (Space) Empty tile
+#   A..Z    Tiles A through Z
+#   *       Goal
+#   h       heart
+#   1       Bad Guy 1 (grub)
+#   2       Bad Guy 2 (fly)
+#   3       creep fly
+#   4       creep zombie
+#   5           dio 
+                                                                 
+
+                        h               h
+             3        IIIIIII      IIIIIII             2
+                                                           2
+         3              3            2            2  EF
+                 EF                                 EGD
+        EF  1    CD   4    1     4        1        EGAD   4  *
+BBBBBBBBGHBBBBBBBGHBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBGAAHBBBBBBBBBBB

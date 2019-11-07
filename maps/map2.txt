@@ -1,0 +1,14 @@
+# Map file for tile-based game 
+# (Lines that start with '#' are comments)
+
+BF
+AD
+AD                        4                  I                   EBBBBBBBBBBBBBF
+AD                     IIIIIII               I                   CAAAAAAAAAAAAAD
+AD                                          I               h h  CAAAAAAAAAAAAAHF
+AD                       3          2                      IIIII CAAAAAAAAAAAAAAD
+AD          h        3  IIIII                                    CAAAAAAAAAAAAAAHF
+AD         III                          1   h   1                CAAAAAAAAAAAAAAAD
+AD                  h    3    1      IIIIIIIIIIIII               CAAAAAAAAAAAAAAAHF
+AD              EBBBBBBBBBBBBBBBF                     4        * CAAAAAAAAAAAAAAAAD
+AHBBBBBBBBBBBBBBGAAAAAAAAAAAAAAAHBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBGAAAAAAAAAAAAAAAAH

@@ -1,0 +1,12 @@
+
+BF
+AD
+AD 2                                        EBBBBBBBBBBBBBF
+AD 2                              m          CAAAAAAAAAAAAADm
+AD                              m           2CAAAAAAAAAAAAAHFm
+AD 2                            m            CAAAAAAAAAAAAAADm
+AD                              m           2CAAAAAAAAAAAAAAHFm
+AD                               m           CAAAAAAAAAAAAAAAD
+AD                               m           CAAAAAAAAAAAAAAAHF
+AD                              m            CAAAAAAAAAAAAAAAAD
+AHBBBBBBBBBBBBBBGAAAAAAAAAAAAAAAHBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
