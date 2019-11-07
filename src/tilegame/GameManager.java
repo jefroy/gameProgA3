@@ -282,12 +282,6 @@ public class GameManager extends GameCore {
     */
     public void update(long elapsedTime) {
         Player player = (Player)map.getPlayer();
-/*
-	if (player == null)
-		System.out.println("Player is null. Program about to crash.");
-	else
-		System.out.println("Player is not null. ");
-*/
         // player is dead! start map over
         if (player.getState() == Creature.STATE_DEAD) {
             map = resourceManager.reloadMap();
@@ -325,8 +319,7 @@ public class GameManager extends GameCore {
         Updates the creature, applying gravity for creatures that
         aren't flying, and checks collisions.
     */
-    private void updateCreature(Creature creature,
-        long elapsedTime)
+    private void updateCreature(Creature creature, long elapsedTime)
     {
 
         // apply gravity
@@ -502,6 +495,7 @@ public class GameManager extends GameCore {
                 soundManager.play(boopSound);
                 badguy.health -= player.damage;
                 if(badguy.health <= 0){
+                    if(badguy instanceof Creep_Zombie || badguy instanceof  Creep_Fly || badguy instanceof Dio) resourceManager.numBaddies--;
                     player.score += badguy.worth;
                     badguy.setState(Creature.STATE_DYING);
                     if(badguy instanceof Dio){
@@ -523,7 +517,6 @@ public class GameManager extends GameCore {
                     // TODO: 28-Oct-19 oof sound
                 }
                 else{
-                    // if the player dies while idle, game can crash
                     player.grace();
                 }
 
@@ -555,10 +548,16 @@ public class GameManager extends GameCore {
         }
         else if (powerUp instanceof PowerUp.Goal) {
             // advance to next map
-            map.removeSprite(powerUp);
-            soundManager.play(prizeSound,
-                new EchoFilter(2000, .7f), false);
-            map = resourceManager.loadNextMap();
+            if(resourceManager.numBaddies <= 0){
+                map.removeSprite(powerUp);
+                soundManager.play(prizeSound,
+                        new EchoFilter(2000, .7f), false);
+                map = resourceManager.loadNextMap();
+            }
+            else{
+                System.out.println("Kill all the baddies first!! to kill: " + resourceManager.numBaddies);
+            }
+
         }
     }
 

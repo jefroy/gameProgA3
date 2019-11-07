@@ -19,6 +19,7 @@ public class ResourceManager {
 
     private ArrayList tiles;
     private int currentMap = 0;
+    public int numBaddies = 0;
     private GraphicsConfiguration gc;
 
     // host sprites used for cloning
@@ -160,6 +161,7 @@ public class ResourceManager {
     private TileMap loadMap(String filename)
         throws IOException
     {
+        numBaddies = 0;
         ArrayList lines = new ArrayList();
         int width = 0;
         int height = 0;
@@ -200,12 +202,20 @@ public class ResourceManager {
                     addSprite(newMap, grubSprite, x, y);
                 else if (ch == flySprite.tileID)
                     addSprite(newMap, flySprite, x, y);
-                else if (ch == creep_fly.tileID)
+                else if (ch == creep_fly.tileID){
                     addSprite(newMap, creep_fly, x, y);
+                    numBaddies++;
+                }
                 else if (ch == creep_zombie.tileID)
+                {
                     addSprite(newMap, creep_zombie, x, y);
+                    numBaddies++;
+                }
                 else if (ch == dioSprite.tileID)
+                {
+                    numBaddies++;
                     addSprite(newMap, dioSprite, x, y);
+                }
                 else if (ch == heartSprite.tileID)
                     addSprite(newMap, heartSprite, x, y);
                 else if (ch == musicSprite.tileID)
@@ -552,21 +562,21 @@ public class ResourceManager {
         return anim;
     }
 
-    private void loadGoalSprite(){
+    public void loadGoalSprite(){
         String path = "drops/goal/";
         int num = 4;
         Animation anim = new Animation();
         for (int i = 0; i < num; i++) anim.addFrame(loadImage(path + i + imgExt), 150);
         goalSprite = new PowerUp.Goal(anim);
     }
-    private void loadHeartSprite(){
+    public void loadHeartSprite(){
         String path = "drops/heart/";
         int num = 3;
         Animation anim = new Animation();
         for (int i = 0; i < num; i++) anim.addFrame(loadImage(path + i + imgExt), 150);
         heartSprite = new PowerUp.Heart(anim);
     }
-    private void loadMusicSprite(){
+    public void loadMusicSprite(){
         String path = "drops/music/";
         int num = 3;
         Animation anim = new Animation();
@@ -575,11 +585,13 @@ public class ResourceManager {
     }
 
     private void loadPowerUpSprites() {
-        // create "goal" sprite
         loadGoalSprite();
         loadMusicSprite();
         loadHeartSprite();
         System.out.println("loadPowerUpSprites successfully executed.");
     }
 
+    public void showGoal() {
+        return;
+    }
 }

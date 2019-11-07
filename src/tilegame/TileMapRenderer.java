@@ -4,8 +4,7 @@ import java.awt.*;
 import java.util.Iterator;
 
 import graphics.Sprite;
-import tilegame.sprites.Creature;
-import tilegame.sprites.Player;
+import tilegame.sprites.*;
 
 /**
     The TileMapRenderer class draws a TileMap on the screen.
@@ -38,6 +37,7 @@ public class TileMapRenderer {
 
     public TileMapRenderer(GameManager gm){
         this.gm = gm;
+        System.out.println("created TileMapRenderer");
     }
 
     /**
