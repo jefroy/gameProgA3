@@ -69,41 +69,33 @@ public class Player extends Creature {
         // moving left
         if (getVelocityX() < 0 && getVelocityY() == 0) { // try adding getVelocityY() == 0, this solved the yea
             newAnim = left;
+            onGround = true;
         }
         // moving right
         else if (getVelocityX() > 0 && getVelocityY() == 0) {
             newAnim = right;
+            onGround = true;
         }
         else if (state == STATE_NORMAL && newAnim == left && getVelocityY() == 0 && getVelocityX() == 0) {
             newAnim = idleLeft;
+            onGround = true;
         }
         else if (state == STATE_NORMAL && newAnim == right && getVelocityY() == 0 && getVelocityX() == 0) {
             newAnim = idleRight;
+            onGround = true;
         }
         // jumping ??
         else if (getVelocityY() < 0) {
             if(newAnim == left || newAnim == idleLeft) newAnim = jumpLeft;
             else if(newAnim == right || newAnim == idleRight) newAnim = jumpRight;
             jumped = false;
-//            System.out.println(
-//                    "player  jump update:"
-//                            + "\nvelX: " + getVelocityX()
-//                            + "\nvelY: " + getVelocityY()
-//                            + "\nstate: " + state
-//            );
+            onGround = false;
         }
         // falling ??
-        else if (!onGround && getVelocityY() > 0) {
+        else if (getVelocityY() > 0 && !onGround) {
             if(newAnim == left || newAnim == idleLeft || newAnim == jumpLeft) newAnim = fallLeft;
             else if(newAnim == right || newAnim == idleRight || newAnim == jumpRight) newAnim = fallRight;
-            onGround = true;
-//            System.out.println(
-//                    "player fall update:"
-//                            + "\nvelX: " + getVelocityX()
-//                            + "\nvelY: " + getVelocityY()
-//                            + "\nstate: " + state
-//            );
-
+//            onGround = true;
         }
 
         if (state == STATE_DYING) {
