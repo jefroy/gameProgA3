@@ -67,17 +67,17 @@ public class Player extends Creature {
         // select the correct Animation
         Animation newAnim = anim;
         // moving left
-        if (getVelocityX() < 0 && getVelocityY() == 0 && onGround) { // try adding getVelocityY() == 0, this solved the yea
+        if (getVelocityX() < 0 && getVelocityY() == 0) { // try adding getVelocityY() == 0, this solved the yea
             newAnim = left;
         }
         // moving right
-        else if (getVelocityX() > 0 && getVelocityY() == 0 && onGround) {
+        else if (getVelocityX() > 0 && getVelocityY() == 0) {
             newAnim = right;
         }
-        else if (state == STATE_NORMAL && newAnim == left && onGround) {
+        else if (state == STATE_NORMAL && newAnim == left && getVelocityY() == 0 && getVelocityX() == 0) {
             newAnim = idleLeft;
         }
-        else if (state == STATE_NORMAL && newAnim == right && onGround) {
+        else if (state == STATE_NORMAL && newAnim == right && getVelocityY() == 0 && getVelocityX() == 0) {
             newAnim = idleRight;
         }
         // jumping ??

@@ -537,7 +537,7 @@ public class ResourceManager {
     {
         Animation anim = new Animation();
         for (int i = 0; i < images.length; i++) {
-            anim.addFrame(images[i], 200);
+            anim.addFrame(images[i], 100);
         }
         return anim;
     }
