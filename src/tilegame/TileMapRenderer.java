@@ -191,7 +191,8 @@ public class TileMapRenderer {
         g2.drawString("HP: " + Integer.toString(gm.map.getPlayer().health) + "/" + Integer.toString(gm.map.getPlayer().maxHP),10,130);
         g2.drawString("DMG: " + Integer.toString(gm.map.getPlayer().damage),10,190);
         g2.drawString("Score: " + Integer.toString(gm.map.getPlayer().score),10,240);
-        g2.drawString("DIO HP: " + Integer.toString(gm.resourceManager.dioSprite.health),500,70);
+        g2.drawString("Baddies: " + Integer.toString(gm.resourceManager.numBaddies),10,290);
+//        g2.drawString("DIO HP: " + Integer.toString(gm.resourceManager.dioSprite.health),500,70); // TODO: 07-Nov-19 fix this
     }
 
     public void drawGameOverGUI(Graphics2D g2){

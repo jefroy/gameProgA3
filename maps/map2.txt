@@ -3,9 +3,9 @@
 
 BF
 AD
-AD                        4                  I                   EBBBBBBBBBBBBBF
+AD                                           I                   EBBBBBBBBBBBBBF
 AD                     IIIIIII               I                   CAAAAAAAAAAAAAD
-AD                                          I               h h  CAAAAAAAAAAAAAHF
+AD                                           I              h h  CAAAAAAAAAAAAAHF
 AD                       3          2                      IIIII CAAAAAAAAAAAAAAD
 AD          h        3  IIIII                                    CAAAAAAAAAAAAAAHF
 AD         III                          1   h   1                CAAAAAAAAAAAAAAAD
