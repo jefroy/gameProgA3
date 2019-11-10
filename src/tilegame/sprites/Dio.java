@@ -11,7 +11,7 @@ public class Dio extends Creature {
 
     private int id;
     protected int startNextSpawn;
-    private static int idCounter = 0;
+    private static int idCounter = 1;
     private Animation attackLeft;
     private Animation attackRight;
     public boolean isEnraged;

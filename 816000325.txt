@@ -1,0 +1,5 @@
+name: ajay sieunarine
+id: 816000325
+email: ajay.sieunarine@my.uwi.edu
+
+repo: https://github.com/jefroy/gameProgA3

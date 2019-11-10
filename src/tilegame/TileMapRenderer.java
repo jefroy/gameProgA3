@@ -1,7 +1,9 @@
 package tilegame;
 
 import java.awt.*;
+import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
 
 import graphics.Sprite;
 import tilegame.sprites.*;
@@ -104,6 +106,10 @@ public class TileMapRenderer {
             Math.round(player.getX()) - TILE_SIZE;
         offsetX = Math.min(offsetX, 0);
         offsetX = Math.max(offsetX, screenWidth - mapWidth);
+        int offsetX2 = screenWidth / 2 -
+            Math.round(player.getX()) - TILE_SIZE;
+        offsetX2 = Math.min(offsetX, 0);
+        offsetX2 = Math.max(offsetX, screenWidth - mapWidth);
 
         // get the y offset to draw all sprites and tiles
         int offsetY = screenHeight -
@@ -122,15 +128,41 @@ public class TileMapRenderer {
             int x = offsetX *
                 (screenWidth - plx1.getWidth(null)) /
                 (screenWidth - mapWidth);
+            x = x/7;
             int y = screenHeight - plx1.getHeight(null);
-
             g.drawImage(plx1, x, y, null);
+        }
+        if (plx2 != null) {
+            int x = offsetX *
+                (screenWidth - plx2.getWidth(null)) /
+                (screenWidth - mapWidth);
+            x = x / 5;
+            int y = screenHeight - plx2.getHeight(null);
             g.drawImage(plx2, x, y, null);
+        }
+        if (plx3 != null) {
+            int x = offsetX *
+                (screenWidth - plx3.getWidth(null)) /
+                (screenWidth - mapWidth);
+            x = x / 4;
+            int y = screenHeight - plx3.getHeight(null);
             g.drawImage(plx3, x, y, null);
+        }
+        if (plx4 != null) {
+            int x = offsetX *
+                (screenWidth - plx4.getWidth(null)) /
+                (screenWidth - mapWidth);
+            x = x / 3;
+            int y = screenHeight - plx4.getHeight(null);
             g.drawImage(plx4, x, y, null);
+        }
+        if (plx5 != null) {
+            int x = offsetX *
+                (screenWidth - plx5.getWidth(null)) /
+                (screenWidth - mapWidth);
+            x = x / 2;
+            int y = screenHeight - plx5.getHeight(null);
             g.drawImage(plx5, x, y, null);
-            // draw gui
-
         }
 
         // draw the visible tiles
@@ -180,17 +212,39 @@ public class TileMapRenderer {
         // draw gui over everything
         if(gm.resourceManager.getCurrentMap() == 4){
             drawGameOverGUI(g);
-        }else drawGUI(g);
+        }else{
+            if(gm.map.getPlayer().drawDebug) drawDebugGUI(g);
+            else drawGUI(g);
+        }
+
+    }
+
+    public void drawDebugGUI(Graphics2D g2){
+        Font f = new Font ("Times New Roman", Font.PLAIN, (30));
+        g2.setFont(f);
+        g2.setColor(Color.RED);
+        ConcurrentHashMap<String, String> hm = gm.map.getPlayer().debugString();
+        Enumeration e = hm.keys();
+        String s;
+        int x = 10;
+        int y = 70;
+        for (int i = 0; i < hm.size(); i++) {
+            s = e.nextElement().toString();
+            g2.drawString(s + hm.get(s), x , y);
+            y += 50;
+        }
     }
 
     public void drawGUI(Graphics2D g2){
-        Font f = new Font ("Impact", Font.PLAIN, (40));
+        Font f = new Font ("Impact", Font.PLAIN, (30));
         g2.setFont(f);
         g2.setColor(Color.BLUE);
         g2.drawString("Time: " + Long.toString(gm.secondsPassed),10,70);
+        g2.drawString("Level: " + Long.toString(gm.map.getPlayer().level),180,70);
         g2.drawString("HP: " + Integer.toString(gm.map.getPlayer().health) + "/" + Integer.toString(gm.map.getPlayer().maxHP),10,130);
         g2.drawString("DMG: " + Integer.toString(gm.map.getPlayer().damage),10,190);
         g2.drawString("Score: " + Integer.toString(gm.map.getPlayer().score),10,240);
+        g2.drawString("EXP: " + Integer.toString(gm.map.getPlayer().exp) + "/" + gm.map.getPlayer().toNextLevel,180,240);
         g2.drawString("Baddies: " + Integer.toString(gm.resourceManager.numBaddies),10,290);
 //        g2.drawString("DIO HP: " + Integer.toString(gm.resourceManager.dioSprite.health),500,70); // TODO: 07-Nov-19 fix this
     }

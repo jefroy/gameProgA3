@@ -226,7 +226,6 @@ public class ResourceManager {
         }
 
         // add the player to the map
-//        if(player.health <= 0) player.resetStats();
         player.setState(player.STATE_NORMAL);
         player.setX(TileMapRenderer.tilesToPixels(3));
         player.setY(0);

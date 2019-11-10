@@ -18,6 +18,7 @@ public class Creep_Zombie extends Creature {
         health = 4;
         worth = health;
         tileID = '4';
+        exp = 3;
         this.speed = 0.06f;
     }
 

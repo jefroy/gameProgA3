@@ -18,6 +18,7 @@ public class Creep_Fly extends Creature {
         worth = health;
         tileID = '3';
         this.speed = 0.2f;
+        exp = 2;
     }
 
     public float getMaxSpeed() {

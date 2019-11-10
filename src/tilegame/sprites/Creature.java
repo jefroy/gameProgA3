@@ -38,6 +38,7 @@ public abstract class Creature extends Sprite {
     public float speed;
     public int upTime; // time in seconds to upgrade mobs
     public int up;
+    public int exp;
 
 
     /**
@@ -56,6 +57,7 @@ public abstract class Creature extends Sprite {
         state = STATE_NORMAL;
         upTime = 30; // after 30 seconds, upgrade all baddies
         up = 0;
+        exp = 1;
     }
 
 

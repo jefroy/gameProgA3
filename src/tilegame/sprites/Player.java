@@ -3,6 +3,7 @@ package tilegame.sprites;
 import graphics.Animation;
 
 import java.lang.reflect.Constructor;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
     The Player.
@@ -10,6 +11,9 @@ import java.lang.reflect.Constructor;
 public class Player extends Creature {
 
     public static final float JUMP_SPEED = -.95f;
+    public static final int STATE_JUMPING = 4;
+    public static final int STATE_FALLING = 5;
+    public boolean drawDebug;
 
     // additional animations
     private Animation idleLeft;
@@ -24,7 +28,9 @@ public class Player extends Creature {
     public int up2;
     public int up3;
     public boolean win;
-    public static int maxHP;
+    public int maxHP;
+    public int level;
+    public int toNextLevel;
 
     public Player(
             Animation runLeft, Animation runRight,
@@ -55,6 +61,10 @@ public class Player extends Creature {
         onGround = true;
         win = false;
         speed = 0.5f;
+        level = 1;
+        exp = 0;
+        toNextLevel = 10;
+        drawDebug = false;
 
         up1 = 10;
         up2 = 20;
@@ -67,39 +77,44 @@ public class Player extends Creature {
         // select the correct Animation
         Animation newAnim = anim;
         // moving left
-        if (getVelocityX() < 0 && getVelocityY() == 0) { // try adding getVelocityY() == 0, this solved the yea
+        if (getVelocityX() < 0 && getVelocityY() == 0) {
             newAnim = left;
-            onGround = true;
+            facingLeft = true;
+            facingRight = false;
         }
         // moving right
         else if (getVelocityX() > 0 && getVelocityY() == 0) {
             newAnim = right;
-            onGround = true;
+            facingRight = true;
+            facingLeft = false;
         }
-        else if (state == STATE_NORMAL && newAnim == left && getVelocityY() == 0 && getVelocityX() == 0) {
-            newAnim = idleLeft;
-            onGround = true;
-        }
-        else if (state == STATE_NORMAL && newAnim == right && getVelocityY() == 0 && getVelocityX() == 0) {
-            newAnim = idleRight;
-            onGround = true;
+        else if (state == STATE_NORMAL && onGround && getVelocityY() == 0){
+            if(facingLeft) newAnim = idleLeft;
+            else newAnim = idleRight;
         }
         // jumping ??
-        else if (getVelocityY() < 0) {
-            if(newAnim == left || newAnim == idleLeft) newAnim = jumpLeft;
-            else if(newAnim == right || newAnim == idleRight) newAnim = jumpRight;
-            jumped = false;
-            onGround = false;
+        else if (jumped) {
+            if(facingLeft) newAnim = jumpLeft;
+            else if(facingRight) newAnim = jumpRight;
+            if(getVelocityY() > 0) {
+//                setState(STATE_FALLING);
+                isFalling = true;
+                jumped = false;
+            }
         }
         // falling ??
-        else if (getVelocityY() > 0 && !onGround) {
-            if(newAnim == left || newAnim == idleLeft || newAnim == jumpLeft) newAnim = fallLeft;
-            else if(newAnim == right || newAnim == idleRight || newAnim == jumpRight) newAnim = fallRight;
-//            onGround = true;
+        else if (isFalling) {
+            if(facingLeft) newAnim = fallLeft;
+            else if(facingRight) newAnim = fallRight;
+            if(getVelocityY() == 0){
+//                setState(STATE_NORMAL);
+                isFalling = false;
+            }
         }
 
+
         if (state == STATE_DYING) {
-            if(newAnim == left || newAnim == idleLeft) newAnim = deadLeft;
+            if(facingLeft) newAnim = deadLeft;
             else newAnim = deadRight;
         }
 
@@ -112,6 +127,7 @@ public class Player extends Creature {
         }
 
         // update to "dead" state
+//        if(state != STATE_DYING) return;
         stateTime += elapsedTime;
         if (state == STATE_DYING && stateTime >= DIE_TIME) {
             setState(STATE_DEAD);
@@ -180,6 +196,8 @@ public class Player extends Creature {
     public void jump(boolean forceJump) {
         if (onGround || forceJump) {
             onGround = false;
+//            setState(STATE_JUMPING);
+            jumped = true;
             setVelocityY(JUMP_SPEED);
         }
     }
@@ -207,7 +225,7 @@ public class Player extends Creature {
     // player dies, reset score
     public void resetStats(){
         System.out.println("did u die? resetting stats.");
-//        this.score = 0;
+        this.score /= 2;
         this.health = maxHP;
 //        this.state = STATE_NORMAL;
     }
@@ -234,5 +252,38 @@ public class Player extends Creature {
         health = maxHP;
         up3 = -1;
         System.out.println("upgraded player 3");
+    }
+    public void levelUp(){
+        if(up1 == -1 && up2 == -1 && up3 == -1){
+            toNextLevel += 10;
+            level++;
+            if(level % 2 == 0) damage++;
+            else{
+                maxHP++;
+                health = maxHP;
+            }
+        }
+        else return;
+    }
+    public ConcurrentHashMap debugString(){
+        ConcurrentHashMap<String, String> s = new ConcurrentHashMap();
+        s.put("x: ", Float.toString(x));
+        s.put("y: ", Float.toString(y));
+        s.put("xvel: ", Float.toString(getVelocityX()));
+        s.put("yvel: ", Float.toString(getVelocityY()));
+        s.put("onground: ", Boolean.toString(onGround));
+        s.put("jumped: ", Boolean.toString(jumped));
+        s.put("left: ", Boolean.toString(facingLeft));
+        s.put("right: ", Boolean.toString(facingRight));
+        s.put("state: ", (getStateString(state)));
+        return s;
+    }
+    public String getStateString(int state){
+        if(state == STATE_NORMAL) return "NORMAL";
+        if(state == STATE_DYING) return "DYING";
+        if(state == STATE_DEAD) return "DEAD";
+        if(state == STATE_JUMPING) return "JUMPING";
+        if(state == STATE_FALLING) return "FALLING";
+        return "error";
     }
 }

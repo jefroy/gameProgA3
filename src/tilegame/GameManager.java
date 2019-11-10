@@ -53,6 +53,7 @@ public class GameManager extends GameCore {
     private graphics.input.GameAction shoot;
     private graphics.input.GameAction jump;
     private graphics.input.GameAction exit;
+    private graphics.input.GameAction debug;
 
     public void init() {
         super.init();
@@ -116,6 +117,10 @@ public class GameManager extends GameCore {
                 "exit",
                 graphics.input.GameAction.DETECT_INITAL_PRESS_ONLY
         );
+        debug = new graphics.input.GameAction(
+                "debug",
+                graphics.input.GameAction.DETECT_INITAL_PRESS_ONLY
+        );
 
         inputManager = new InputManager(
             screen.getFullScreenWindow());
@@ -126,6 +131,7 @@ public class GameManager extends GameCore {
         inputManager.mapToKey(jump, KeyEvent.VK_SPACE);
         inputManager.mapToKey(shoot, KeyEvent.VK_Z);
         inputManager.mapToKey(exit, KeyEvent.VK_ESCAPE);
+        inputManager.mapToKey(debug, KeyEvent.VK_F3);
     }
 
 
@@ -144,14 +150,18 @@ public class GameManager extends GameCore {
             if (moveRight.isPressed()) {
                 velocityX+=player.getMaxSpeed();
             }
-            if (jump.isPressed()) {
+            if (jump.isPressed() && player.onGround) {
                 player.jump(false);
-                player.jumped = true;
             }
             if(shoot.isPressed()){
                 // TODO: 22-Oct-19 make player.shoot();
             }
             player.setVelocityX(velocityX);
+        }
+
+        if(debug.isPressed()){
+            if(player.drawDebug) player.drawDebug = false;
+            else player.drawDebug = true;
         }
 
     }
@@ -285,7 +295,6 @@ public class GameManager extends GameCore {
         // player is dead! start map over
         if (player.getState() == Creature.STATE_DEAD) {
             map = resourceManager.reloadMap();
-            // TODO: 28-Oct-19 game over?
             return;
         }
 
@@ -402,14 +411,7 @@ public class GameManager extends GameCore {
         if (!player.isFlying()) {
             player.setVelocityY(player.getVelocityY() +
                     GRAVITY * elapsedTime);
-            player.jumped = true;
-//            player.setState(player.STATE_FALLING);
         }
-        else if(player.getVelocityY() < 0) {
-//            player.setState(player.STATE_JUMPING);
-            player.jumped = false;
-        }
-//        else player.setState(player.STATE_NORMAL);
 
         // change x
         float dx = player.getVelocityX();
@@ -463,10 +465,10 @@ public class GameManager extends GameCore {
             checkPlayerCollision((Player)player, canKill);
         }
 
+        if(player.exp >= player.toNextLevel) player.levelUp();
         if(player.score >= player.up1 && player.up1 != -1) player.upgrade1();
         if(player.score >= player.up2 && player.up2 != -1) player.upgrade2();
         if(player.score >= player.up3 && player.up3 != -1) player.upgrade3();
-
     }
 
 
@@ -497,6 +499,7 @@ public class GameManager extends GameCore {
                 if(badguy.health <= 0){
                     if(badguy instanceof Creep_Zombie || badguy instanceof  Creep_Fly || badguy instanceof Dio) resourceManager.numBaddies--;
                     player.score += badguy.worth;
+                    player.exp += badguy.exp;
                     badguy.setState(Creature.STATE_DYING);
                     if(badguy instanceof Dio){
                         player.win = true;
