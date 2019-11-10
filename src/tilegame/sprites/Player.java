@@ -254,7 +254,7 @@ public class Player extends Creature {
         System.out.println("upgraded player 3");
     }
     public void levelUp(){
-        if(up1 == -1 && up2 == -1 && up3 == -1){
+
             toNextLevel += 10;
             level++;
             if(level % 2 == 0) damage++;
@@ -262,8 +262,7 @@ public class Player extends Creature {
                 maxHP++;
                 health = maxHP;
             }
-        }
-        else return;
+
     }
     public ConcurrentHashMap debugString(){
         ConcurrentHashMap<String, String> s = new ConcurrentHashMap();
